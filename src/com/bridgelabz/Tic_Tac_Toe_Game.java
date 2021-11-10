@@ -30,7 +30,7 @@ public class Tic_Tac_Toe_Game {
 	                    System.out.println("Excellent! You are the winner");
 	                    break outerloop;
 	                }
-	                // to check whether game is tie or not
+
 	                flag = checkTie();
 	                if (flag == 1) {
 	                    System.out.println("Nice Play! It's Tie");
@@ -39,30 +39,37 @@ public class Tic_Tac_Toe_Game {
 	                }
 	                turn++;
 	            } else {
+	                flag = checkTie();
+	                if (flag != 0) {
+	                    System.out.println("Nice Play! It's Tie");
+	                    ;
+	                    break outerloop;
+	                }
 	                flag = computerWin();
 	                if (flag == 1)
 	                    break outerloop;
-	                flag = computerBlock();
-	                if (flag == 1) {
-	                    turn++;
-	                    flag = 0;
-	                    return;
+	            }
+
+	            for (int i = 1; i <= 3; i++) {
+	                switch (i) {
+	                    case 1:
+	                        flag = computerBlock();
+	                        break;
+	                    case 2:
+	                        flag = computerCorner();
+	                        break;
+	                    default:
+	                        flag = computerCenterSide();
 	                }
-	                flag = computerCorner();
 	                if (flag == 1) {
 	                    turn++;
 	                    flag = 0;
-	                    return;
-	                }
-	                flag = computerCenterSide();
-	                if (flag == 1) {
-	                    turn++;
-	                    flag = 0;
-	                    return;
+	                    break;
 	                }
 	            }
 	        }
 	    }
+	
 
 	    private static void boardCreation() {
 	        element = new char[10];
@@ -255,23 +262,28 @@ public class Tic_Tac_Toe_Game {
 	        return flag;
 
 	    }
+
 	    private static int computerCenterSide() {
 	        if (element[5] != 'X' && element[5] != 'O') {
 	            element[5] = computerMark;
 	            System.out.println("Computer choice is '5'");
 	            flag = 1;
 	        } else {
-	            int side[] = { 2, 6, 8, 4 };
-	            for (int j = 0; j < 4; j++) {
-	                if (element[side[j]] != 'X' && element[side[j]] != 'O') {
-	                    element[side[j]] = computerMark;
-	                    System.out.println("My choice is '" + side[j] + "'");
-	                    flag = 1;
-	                    break;
-	                }
+	            int side[] = {2, 6, 8, 4};
+	            flag = computerOption(side);
+	        }
+	        return flag;
+	    }
+
+	    private static int computerOption(int[] array) {
+	        for (int j = 0; j < 4; j++) {
+	            if (element[array[j]] != 'X' && element[array[j]] != 'O') {
+	                element[array[j]] = computerMark;
+	                System.out.println("Computer choice is '" + array[j] + "'");
+	                flag = 1;
+	                break;
 	            }
 	        }
 	        return flag;
 	    }
 	}
-
