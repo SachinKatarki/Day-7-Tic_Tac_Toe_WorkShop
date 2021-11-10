@@ -1,19 +1,31 @@
 package com.bridgelabz;
 import java.util.Scanner;
+import java.util.Random;
 
 public class Tic_Tac_Toe_Game {
-	private static char[] element;
-    static char userMark, computerMark;
-    static Scanner scan = new Scanner(System.in);
-    static int userNumber;
+	 private static char[] element;
+	    static char userMark, computerMark;
+	    static Scanner scan = new Scanner(System.in);
+	    private static final Random random = new Random();
+	    static int userNumber, computerNumber;
+	    static int turn = 1, flag = 0;
+
     
 	public static void main(String[] args) {
-		 System.out.println("Welcome to the Tic Tac Toe Game !!!!!!");
+		  System.out.println("Welcome to the Tic Tac Toe Game !!!!!!");
 	        boardCreation();
+	        displayingBoard();
 	        choosingXorO();
-	        currentBoard();
-	        userCall();
-	        userMove();
+	        tossCoin();
+	        while (flag == 0) {
+	            if ((turn + 1) % 2 == 0) {
+
+	                currentBoard();
+	                userCall();
+	                userMove();
+	                turn++;
+	            }
+	        }
 	    }
 
 	    private static void boardCreation() {
@@ -78,5 +90,31 @@ public class Tic_Tac_Toe_Game {
 	            element[userNumber] = userMark;
 	            System.out.println(userMark + " user is marked " + userNumber);
 	        }
+	    }
+	    private static void tossCoin() {
+	        System.out.println("\nMaking a toss to check who plays first\nChoose 1 for Head or 2 for Tail");
+	        int option = scan.nextInt();
+	        if (option == 1 || option == 2) {
+	            int flip = random.nextInt(2) + 1;
+	            if (flip == 1) {
+	                System.out.println("\nBy tossing Coin it shows HEAD\n");
+	            } else {
+	                System.out.println("\nBy tossing Coin it shows TAIL\n");
+	            }
+	            if (flip == option) {
+	                System.out.println("User will start the game\n");
+	            } else {
+	                System.out.println("Computer will start the game\n");
+	                computerFirstTurn();
+	            }
+	        } else {
+	            System.out.println("\nInvalid input Again");
+	            tossCoin();
+	        }
+	    }
+	    public static void computerFirstTurn() {
+	        computerNumber = random.nextInt(9) + 1;
+	        element[computerNumber] = computerMark;
+	        System.out.println("Computer choses '" + computerNumber + "' now user turn");
 	    }
 	}
