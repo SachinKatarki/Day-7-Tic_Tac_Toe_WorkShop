@@ -54,6 +54,12 @@ public class Tic_Tac_Toe_Game {
 	                    flag = 0;
 	                    return;
 	                }
+	                flag = computerCenterSide();
+	                if (flag == 1) {
+	                    turn++;
+	                    flag = 0;
+	                    return;
+	                }
 	            }
 	        }
 	    }
@@ -249,4 +255,23 @@ public class Tic_Tac_Toe_Game {
 	        return flag;
 
 	    }
+	    private static int computerCenterSide() {
+	        if (element[5] != 'X' && element[5] != 'O') {
+	            element[5] = computerMark;
+	            System.out.println("Computer choice is '5'");
+	            flag = 1;
+	        } else {
+	            int side[] = { 2, 6, 8, 4 };
+	            for (int j = 0; j < 4; j++) {
+	                if (element[side[j]] != 'X' && element[side[j]] != 'O') {
+	                    element[side[j]] = computerMark;
+	                    System.out.println("My choice is '" + side[j] + "'");
+	                    flag = 1;
+	                    break;
+	                }
+	            }
+	        }
+	        return flag;
+	    }
 	}
+
