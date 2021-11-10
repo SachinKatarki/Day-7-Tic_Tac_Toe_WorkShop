@@ -12,17 +12,31 @@ public class Tic_Tac_Toe_Game {
 
     
 	public static void main(String[] args) {
-		  System.out.println("Welcome to the Tic Tac Toe Game !!!!!!");
+		 System.out.println("Welcome to the Tic Tac Toe Game !!!!!!");
 	        boardCreation();
 	        displayingBoard();
 	        choosingXorO();
 	        tossCoin();
+	        outerloop:
 	        while (flag == 0) {
 	            if ((turn + 1) % 2 == 0) {
 
 	                currentBoard();
 	                userCall();
 	                userMove();
+	                currentBoard();
+	                flag = checkWin();
+	                if (flag == 1) {
+	                    System.out.println("Excellent! You are the winner");
+	                    break outerloop;
+	                }
+	                // to check whether game is tie or not
+	                flag = checkTie();
+	                if (flag == 1) {
+	                    System.out.println("Nice Play! It's Tie");
+	                    ;
+	                    break outerloop;
+	                }
 	                turn++;
 	            }
 	        }
@@ -91,6 +105,7 @@ public class Tic_Tac_Toe_Game {
 	            System.out.println(userMark + " user is marked " + userNumber);
 	        }
 	    }
+
 	    private static void tossCoin() {
 	        System.out.println("\nMaking a toss to check who plays first\nChoose 1 for Head or 2 for Tail");
 	        int option = scan.nextInt();
@@ -112,9 +127,59 @@ public class Tic_Tac_Toe_Game {
 	            tossCoin();
 	        }
 	    }
+
 	    public static void computerFirstTurn() {
 	        computerNumber = random.nextInt(9) + 1;
 	        element[computerNumber] = computerMark;
 	        System.out.println("Computer choses '" + computerNumber + "' now user turn");
+	    }
+
+	    public static int checkWin() {
+	        for (int i = 1; i < 9; i++) {
+	            int win[] = winArray(i);
+	            if (element[win[0]] == element[win[1]] && element[win[1]] == element[win[2]]) {
+	                flag = 1;
+	            }
+	        }
+	        return flag;
+	    }
+
+	    private static int[] winArray(int number) {
+	        if (number == 1) {
+	            int arrayWin[] = {1, 2, 3};
+	            return arrayWin;
+	        } else if (number == 2) {
+	            int arrayWin[] = {4, 5, 6};
+	            return arrayWin;
+	        } else if (number == 3) {
+	            int arrayWin[] = {7, 8, 9};
+	            return arrayWin;
+	        } else if (number == 4) {
+	            int arrayWin[] = {1, 4, 7};
+	            return arrayWin;
+	        } else if (number == 5) {
+	            int arrayWin[] = {2, 5, 8};
+	            return arrayWin;
+	        } else if (number == 6) {
+	            int arrayWin[] = {3, 6, 9};
+	            return arrayWin;
+	        } else if (number == 7) {
+	            int arrayWin[] = {1, 5, 9};
+	            return arrayWin;
+	        } else {
+	            int arrayWin[] = {3, 5, 7};
+	            return arrayWin;
+	        }
+	    }
+
+	    public static int checkTie() {
+	        for (int i = 1; i < 10; i++) {
+	            if (element[i] == 'X' || element[i] == 'O') {
+	                if (i == 9) {
+	                    flag = 1;
+	                }
+	            }
+	        }
+	        return flag;
 	    }
 	}
